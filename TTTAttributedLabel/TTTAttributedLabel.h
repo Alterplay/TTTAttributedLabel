@@ -453,6 +453,15 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
    didSelectLinkWithURL:(NSURL *)url;
 
 /**
+ Tells the delegate that the user did select link to URLs. In case if you have attributed string made from html which contains <a> tags with content which can be detected by data detector (for example: <a href="https://www.google.com">https://www.mysite.com</a>) then didSelectLinkWithURL would be called with https://www.mysite.com instead of https://www.google.com. Use this delegate method to find URL for your needs. If didSelectLinkWithURL is defined then didSelectLinkWithURLs would never be called.
+ 
+ @param label The label whose link was selected.
+ @param urls The URLs for the selected link.
+ */
+- (void)attributedLabel:(TTTAttributedLabel *)label
+   didSelectLinkWithURLs:(NSArray <NSURL *> *)urls;
+
+/**
  Tells the delegate that the user did select a link to an address.
  
  @param label The label whose link was selected.
