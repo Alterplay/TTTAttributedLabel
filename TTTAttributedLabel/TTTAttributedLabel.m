@@ -1444,6 +1444,17 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
                     [self.delegate attributedLabel:self didSelectLinkWithURL:result.URL];
                     return;
                 }
+                else if ([self.delegate respondsToSelector:@selector(attributedLabel:didSelectLinkWithURLs:)]) {
+                    NSMutableArray *matchingURLs = [NSMutableArray new];
+                    [self.links enumerateObjectsUsingBlock:^(NSTextCheckingResult *object, NSUInteger idx, BOOL *stop) {
+                        if (object.range.location == result.range.location
+                            && object.range.length == result.range.length) {
+                            [matchingURLs addObject:object.URL];
+                        }
+                    }];
+                    [self.delegate attributedLabel:self didSelectLinkWithURLs:matchingURLs];
+                    return;
+                }
                 break;
             case NSTextCheckingTypeAddress:
                 if ([self.delegate respondsToSelector:@selector(attributedLabel:didSelectLinkWithAddress:)]) {
